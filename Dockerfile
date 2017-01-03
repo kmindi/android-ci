@@ -11,6 +11,7 @@ ENV ANDROID_HOME "/android-sdk"
 ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
 # Prepare environment
+RUN mkdir $ANDROID_HOME
 RUN apk add --no-cache --update ca-certificates openssl && update-ca-certificates
 
 # Install sdk tools
