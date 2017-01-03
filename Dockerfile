@@ -12,7 +12,7 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
 # Prepare environment
 RUN mkdir $ANDROID_HOME \
-  && apk add --no-cache --update bash ca-certificates openssl && update-ca-certificates
+  && apk add --no-cache --update libstdc++ bash ca-certificates openssl && update-ca-certificates
 
 # Install sdk tools
 RUN wget -O android-sdk.zip https://dl.google.com/android/repository/tools_r${ANDROID_SDK_TOOLS}-linux.zip \
