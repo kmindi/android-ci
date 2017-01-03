@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+ACCEPT_LICENSES=$(which android-accept-licenses)
+
+exec ${ACCEPT_LICENSES} "android update sdk --all --no-ui --filter \"$@\""
