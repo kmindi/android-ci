@@ -13,6 +13,7 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 # Prepare environment
 RUN mkdir $ANDROID_HOME
 RUN apk add --no-cache --update ca-certificates openssl && update-ca-certificates
+RUN apk add --no-cache --update bash 
 
 # Install sdk tools
 RUN wget -O android-sdk.zip https://dl.google.com/android/repository/tools_r${ANDROID_SDK_TOOLS}-linux.zip
@@ -39,16 +40,12 @@ RUN update_sdk build-tools-${ANDROID_BUILD_TOOLS}
 # Update SDKs
 RUN update_sdk android-24
 RUN update_sdk android-23
-RUN update_sdk android-22
 
 # Update emulators
 RUN update_sdk sys-img-${ANDROID_SYS_IMG}-android-24
 RUN update_sdk sys-img-${ANDROID_SYS_IMG}-android-23
-RUN update_sdk sys-img-${ANDROID_SYS_IMG}-android-22
 
 # Update extra
 RUN update_sdk extra-android-m2repository
 RUN update_sdk extra-google-m2repository
 RUN update_sdk extra-google-google_play_services
-
-RUN uname -m
