@@ -6,12 +6,12 @@ FROM openjdk:alpine
 
 ENV ANDROID_BUILD_TOOLS "25.0.1"
 ENV ANDROID_SDK_TOOLS "25.2.3"
-ENV ANDROID_HOME /android-sdk
+ENV ANDROID_SYS_IMG "x86_64"
+ENV ANDROID_HOME "/android-sdk"
 ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
 # Prepare environment
-RUN apt-get --quiet update --yes
-RUN apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+RUN apk add --no-cache curl ca-certificates bash
 
 # Install sdk tools
 RUN wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/tools_r${ANDROID_SDK_TOOLS}-linux.zip
@@ -37,9 +37,9 @@ RUN update_sdk android-23
 RUN update_sdk android-22
 
 # Update emulators
-RUN update_sdk sys-img-armeabi-v7a-android-24
-RUN update_sdk sys-img-armeabi-v7a-android-23
-RUN update_sdk sys-img-armeabi-v7a-android-22
+RUN update_sdk sys-img-${ANDROID_SYS_IMG}-android-24
+RUN update_sdk sys-img-${ANDROID_SYS_IMG}-android-23
+RUN update_sdk sys-img-${ANDROID_SYS_IMG}-android-22
 
 # Update extra
 RUN update_sdk extra-android-m2repository
