@@ -8,6 +8,7 @@ ENV ANDROID_BUILD_TOOLS "25.0.1"
 ENV ANDROID_SDK_TOOLS "25.2.3"
 ENV ANDROID_SYS_IMG "x86_64"
 ENV ANDROID_HOME "/android-sdk"
+ENV SHELL=/bin/bash
 ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
 # Prepare environment
