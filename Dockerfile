@@ -10,10 +10,10 @@ ENV ANDROID_SYS_IMG "x86_64"
 ENV ANDROID_HOME "/android-sdk"
 ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
-# Prepare environment
+# Prepare dependencies
 RUN mkdir $ANDROID_HOME \
   && apt-get update --yes \
-  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 \
+  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5widgets5 \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
