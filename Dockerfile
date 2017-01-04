@@ -5,7 +5,7 @@
 FROM openjdk:8-jdk
 
 ENV ANDROID_BUILD_TOOLS "25.0.1"
-ENV ANDROID_SDK_TOOLS "25.2.3"
+ENV ANDROID_SDK_TOOLS "25.2.4"
 ENV ANDROID_SYS_IMG "x86_64"
 ENV ANDROID_HOME "/android-sdk"
 ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
@@ -13,7 +13,7 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 # Prepare environment
 RUN mkdir $ANDROID_HOME \
   && apt-get update --yes \
-  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5 \
+  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
