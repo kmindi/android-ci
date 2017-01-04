@@ -13,7 +13,7 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 # Prepare environment
 RUN mkdir $ANDROID_HOME \
   && apt-get update --yes \
-  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 \
+  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5 \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
