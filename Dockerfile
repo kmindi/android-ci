@@ -2,7 +2,7 @@
 # GitLab CI Android Runner
 #
 #
-FROM openjdk:alpine
+FROM openjdk:8-jdk
 
 ENV ANDROID_BUILD_TOOLS "25.0.1"
 ENV ANDROID_SDK_TOOLS "25.2.3"
@@ -12,7 +12,10 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
 # Prepare environment
 RUN mkdir $ANDROID_HOME \
-  && apk add --no-cache --update libstdc++ zlib bash ca-certificates openssl && update-ca-certificates
+  && apt-get update --yes \
+  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1
+  && apt-get clean \
+  && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install sdk tools
 RUN wget -O android-sdk.zip https://dl.google.com/android/repository/tools_r${ANDROID_SDK_TOOLS}-linux.zip \
