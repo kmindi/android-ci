@@ -6,7 +6,6 @@ FROM openjdk:8-jdk
 
 ENV ANDROID_BUILD_TOOLS "25.0.1"
 ENV ANDROID_SDK_TOOLS "25.2.4"
-ENV ANDROID_SYS_IMG "armeabi-v7a-google_apis"
 ENV ANDROID_HOME "/android-sdk"
 ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
@@ -41,8 +40,8 @@ RUN update_sdk android-24 \
   && update_sdk android-23
 
 # Update emulators
-RUN update_sdk sys-img-${ANDROID_SYS_IMG}-android-24 \
-  && update_sdk sys-img-${ANDROID_SYS_IMG}-android-23
+RUN update_sdk sys-img-armeabi-v7a-google_apis-24 \
+  && update_sdk sys-img-armeabi-v7a-google_apis-23
 
 # Update extra
 RUN update_sdk extra-android-m2repository \
