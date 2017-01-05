@@ -35,7 +35,7 @@ RUN chmod +x /usr/local/bin/update_sdk
 # Update sdks
 RUN update_sdk platform-tools \
   && update_sdk build-tools-${ANDROID_BUILD_TOOLS} \
-  && update_sdk sys-img-armeabi-v7a-google_apis-android-23 \
+  && update_sdk sys-img-armeabi-v7a-google_apis-23 \
   && update_sdk android-23 \
   && update_sdk extra-android-m2repository \
   && update_sdk extra-google-m2repository \
