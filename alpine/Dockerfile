@@ -2,7 +2,7 @@
 # GitLab CI Android Runner
 #
 #
-FROM ubuntu:14.04
+FROM openjdk:alpine
 
 ENV ANDROID_BUILD_TOOLS "25.0.1"
 ENV ANDROID_SDK_TOOLS "25.2.4"
@@ -11,13 +11,8 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
 # Prepare dependencies
 RUN mkdir $ANDROID_HOME \
-  && add-apt-repository -y ppa:webupd8team/java \
-  && apt-get update --yes \
-  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5widgets5 \
-  && apt-get install -y software-properties-common oracle-java8-installer \
-  && (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) \
-  && apt-get clean \
-  && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && apk add --no-cache --update libstdc++ bash ca-certificates openssl
+  && update-ca-certificates
 
 # Install sdk tools
 RUN wget -O android-sdk.zip https://dl.google.com/android/repository/tools_r${ANDROID_SDK_TOOLS}-linux.zip \
