@@ -12,10 +12,10 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 # Prepare dependencies
 RUN mkdir $ANDROID_HOME \
   && add-apt-repository -y ppa:webupd8team/java \
+  && (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) \
   && apt-get update --yes \
   && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5widgets5 \
   && apt-get install -y software-properties-common oracle-java8-installer \
-  && (echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections) \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
