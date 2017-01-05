@@ -2,7 +2,7 @@
 # GitLab CI Android Runner
 #
 #
-FROM ubuntu:14.04
+FROM ubuntu:16.10
 
 ENV ANDROID_BUILD_TOOLS "25.0.1"
 ENV ANDROID_SDK_TOOLS "25.2.4"
