@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "Updating android sdk : '$@'"
-android-accept-licenses | android update sdk --all --no-ui --filter "$@"
+echo "y" | android update sdk --all --no-ui --filter "$@"
