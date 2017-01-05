@@ -29,7 +29,7 @@ RUN chmod +x /usr/local/bin/android-accept-licenses \
   && chmod +x /usr/local/bin/android-wait-for-emulator
 
 # Add own tools
-COPY ../scripts/update_sdk /usr/local/bin/update_sdk
+COPY update_sdk /usr/local/bin/update_sdk
 RUN chmod +x /usr/local/bin/update_sdk
 
 # Update sdks
