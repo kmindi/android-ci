@@ -30,7 +30,9 @@ RUN chmod +x /usr/local/bin/android-accept-licenses \
 
 # Add own tools
 COPY update_sdk /usr/local/bin/update_sdk
-RUN chmod +x /usr/local/bin/update_sdk
+COPY assure_emulator_awake.sh /usr/local/bin/assure_emulator_awake.sh
+RUN chmod +x /usr/local/bin/update_sdk \
+  && chmod +x /usr/local/bin/assure_emulator_awake.sh
 
 # Update sdks
 RUN update_sdk platform-tools \
