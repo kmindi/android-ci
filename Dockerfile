@@ -12,7 +12,7 @@ ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 # Prepare dependencies
 RUN mkdir $ANDROID_HOME \
   && apt-get update --yes \
-  && apt-get install --yes wget tar unzip libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libqt5widgets5 \
+  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5widgets5 \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -29,7 +29,9 @@ RUN chmod +x /usr/local/bin/android-accept-licenses \
 
 # Add own tools
 COPY update_sdk /usr/local/bin/update_sdk
-RUN chmod +x /usr/local/bin/update_sdk
+COPY assure_emulator_awake.sh /usr/local/bin/assure_emulator_awake.sh
+RUN chmod +x /usr/local/bin/update_sdk \
+  && chmod +x /usr/local/bin/assure_emulator_awake.sh
 
 # Update platform and build tools
 RUN update_sdk platform-tools \

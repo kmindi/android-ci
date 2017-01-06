@@ -3,4 +3,4 @@
 
 [![](https://images.microbadger.com/badges/version/silentstorm/android-ci.svg)](https://microbadger.com/images/silentstorm/android-ci "Get your own version badge on microbadger.com")
 
-Doesn't work yet!
+[WIP]
