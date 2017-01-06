@@ -6,7 +6,7 @@ set cmd [lindex $argv 0]
 spawn {*}$cmd
 expect {
   ":app:connectedDebugAndroidTest" {
-        exec adb shell input keyevent 82
+        spawn adb shell input keyevent 82
         exp_continue
   }
   eof

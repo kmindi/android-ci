@@ -62,7 +62,7 @@ test:instrumentation:23:
    - emulator64-arm -avd test -no-window -no-audio &
    - android-wait-for-emulator
    - export TERM=${TERM:-dumb}
-   - assure_emulator_awake.sh "bash ./gradlew cAT"
+   - assure_emulator_awake.sh "./gradlew cAT"
  artifacts:
    name: "tests-instrumentation-${ANDROID_COMPILE_SDK}-${CI_BUILD_NAME}"
    expire_in: 1 week
