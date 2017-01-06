@@ -16,7 +16,7 @@ It contains:
  - extra-google-m2repository
  - extra-google-google_play_services
 
-For a smaller version see [the minimal version](./minimal) which can be used via `silentstorm/android-ci:minimal`.
+For a smaller version see [the minimal version](https://github.com/Backfighter/android-ci/tree/master/minimal) (only android-23) which can be used via `silentstorm/android-ci:minimal`.
 
 It can also be used in GitLab CI here is how a .gitlab-ci.yml  could look like:
 

@@ -20,10 +20,8 @@ RUN wget -O android-sdk.zip https://dl.google.com/android/repository/tools_r${AN
   && rm android-sdk.zip
 
 # Add tools from travis
-ADD https://raw.githubusercontent.com/appunite/docker/eacea57245e95f112c55c41b41d2c0cf218fd334/android-java8/tools/android-accept-licenses.sh /usr/local/bin/android-accept-licenses
 ADD https://raw.githubusercontent.com/travis-ci/travis-cookbooks/ca800a93071a603745a724531c425a41493e70ff/community-cookbooks/android-sdk/files/default/android-wait-for-emulator /usr/local/bin/android-wait-for-emulator
-RUN chmod +x /usr/local/bin/android-accept-licenses \
-  && chmod +x /usr/local/bin/android-wait-for-emulator
+RUN chmod +x /usr/local/bin/android-wait-for-emulator
 
 # Add own tools
 COPY update_sdk /usr/local/bin/update_sdk
