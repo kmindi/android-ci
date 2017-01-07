@@ -4,13 +4,14 @@ set timeout 1800
 set cmd [lindex $argv 0]
 
 spawn {*}$cmd
-expect -re "^:app:connectedDebugAndroidTest$"
-set temp $spawn_id
-  spawn adb shell input keyevent 82
-  catch wait reason
-  if { [lindex $reason 3] != 0} {
-      puts "Problem with spawned proccess";
+expect {
+  -re "^:app:connectedDebugAndroidTest$" {
+        set temp $spawn_id
+        spawn adb shell input keyevent 82
+        set spawn_id $temp
+        exp_continue
   }
-set spawn_id $temp
+  eof
+}
 catch wait reason
 exit [lindex $reason 3]
