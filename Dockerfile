@@ -21,6 +21,10 @@ RUN wget -O android-sdk.zip https://dl.google.com/android/repository/tools_r${AN
   && unzip -q android-sdk.zip -d $ANDROID_HOME \
   && rm android-sdk.zip
 
+# Workaround for 
+# Warning: File /root/.android/repositories.cfg could not be loaded.
+RUN touch /root/.android/repositories.cfg
+
 # Add tools from travis
 ADD https://raw.githubusercontent.com/travis-ci/travis-cookbooks/ca800a93071a603745a724531c425a41493e70ff/community-cookbooks/android-sdk/files/default/android-wait-for-emulator /usr/local/bin/android-wait-for-emulator
 RUN chmod +x /usr/local/bin/android-wait-for-emulator
