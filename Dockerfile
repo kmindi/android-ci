@@ -5,7 +5,7 @@
 FROM openjdk:8-jdk
 
 ENV ANDROID_BUILD_TOOLS "26"
-ENV ANDROID_SDK_TOOLS "25"
+ENV ANDROID_SDK_TOOLS "25.2.5"
 ENV ANDROID_HOME "/android-sdk"
 ENV PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
 
@@ -33,26 +33,26 @@ RUN chmod +x /usr/local/bin/assure_emulator_awake.sh
 
 
 # Update platform and build tools
-RUN sdkmanager "tools" "platform-tools" 'build-tools;${ANDROID_BUILD_TOOLS}'
+RUN echo "y" | sdkmanager "tools" "platform-tools" 'build-tools;${ANDROID_BUILD_TOOLS}'
 #RUN update_sdk platform-tools \
 #  && update_sdk build-tools-${ANDROID_BUILD_TOOLS}
 
 # Update SDKs
-RUN sdkmanager "platforms;android-26" "platforms;android-25"
+RUN echo "y" | sdkmanager "platforms;android-26" "platforms;android-25"
 #RUN update_sdk android-26 \
 #  && update_sdk android-25
 
 # Update emulators
-RUN sdkmanager "system-images;android-25;google_apis;x86_64"
+RUN echo "y" | sdkmanager "system-images;android-25;google_apis;x86_64"
 #RUN update_sdk sys-img-armeabi-v7a-google_apis-26 \
 #  && update_sdk sys-img-armeabi-v7a-google_apis-25
 
 # Update extra
-RUN sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
+RUN echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
 #RUN update_sdk extra-android-m2repository \
 #  && update_sdk extra-google-m2repository \
 #  && update_sdk extra-google-google_play_services
 
 # Constraint Layout
-RUN sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
-RUN sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+RUN echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+RUN echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
