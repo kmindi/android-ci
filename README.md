@@ -1,7 +1,7 @@
 # Android CI
-[![](https://images.microbadger.com/badges/image/silentstorm/android-ci.svg)](https://microbadger.com/images/silentstorm/android-ci "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/kmindi/android-ci.svg)](https://microbadger.com/images/kmindi/android-ci "Get your own image badge on microbadger.com")
 
-[![](https://images.microbadger.com/badges/version/silentstorm/android-ci.svg)](https://microbadger.com/images/silentstorm/android-ci "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/kmindi/android-ci.svg)](https://microbadger.com/images/kmindi/android-ci "Get your own version badge on microbadger.com")
 
 Repository for a docker image used for android CI.
 
@@ -9,22 +9,20 @@ It contains:
  - build tools
  - platform tools
 
- - android-23 (+ system img)
- - android-24 (+ system img)
+ - android-25 (+ system img)
+ - android-26 
 
  - extra-android-m2repository
  - extra-google-m2repository
  - extra-google-google_play_services
 
-For a smaller version see [the minimal version](https://github.com/Backfighter/android-ci/tree/master/minimal) (only android-23) which can be used via `silentstorm/android-ci:minimal`.
-
 It can also be used in GitLab CI here is how a .gitlab-ci.yml  could look like:
 
 ```YAML
-image: silentstorm/android-ci
+image: kmindi/android-ci
 
 variables:
- ANDROID_COMPILE_SDK: "23"
+ ANDROID_COMPILE_SDK: "25"
 
 before_script:
  - chmod +x ./gradlew
@@ -33,12 +31,23 @@ stages:
  - build
  - test
 
+build:tagged:
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    name: "AppName_{$CI_BUILD_TAG}"
+    paths:
+    - "app/build/outputs/**/*.apk"
+  only:
+    - tags
+
 build:
  stage: build
  script:
    - ./gradlew assembleDebug
  artifacts:
-   name: "Namfy_{$CI_BUILD_ID}"
+   name: "AppName_{$CI_BUILD_ID}"
    expire_in: 1 week
    paths:
    - "app/build/outputs/**/*.apk"
@@ -55,11 +64,11 @@ test:unit:
    paths:
      - "**/build/reports/tests"
 
-test:instrumentation:23:
+test:instrumentation:25:
  stage: test
  script:
-   - echo no | android create avd -n test -t android-${ANDROID_COMPILE_SDK} --abi google_apis/armeabi-v7a
-   - emulator64-arm -avd test -no-window -no-audio &
+   - echo no | android create avd -n test -t android-${ANDROID_COMPILE_SDK} --abi google_apis/x86
+   - emulator64-x86 -avd test -no-window -no-audio &
    - android-wait-for-emulator
    - export TERM=${TERM:-dumb}
    - assure_emulator_awake.sh "./gradlew cAT"
