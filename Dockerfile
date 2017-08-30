@@ -28,7 +28,7 @@ RUN mkdir /root/.android \
 
 # Workaround for host bitness error with android emulator
 # https://stackoverflow.com/a/37604675/455578
-RUN mv /bin/sh /bin/sh.backup /
+RUN mv /bin/sh /bin/sh.backup \
   && cp /bin/bash /bin/sh
 
 # Add tools from travis
