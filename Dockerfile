@@ -53,7 +53,7 @@ RUN echo "y" | sdkmanager "platforms;android-26" "platforms;android-25"
 #  && update_sdk android-25
 
 # Update emulators
-RUN echo "y" | sdkmanager "system-images;android-25;google_apis;x86_64"
+RUN echo "y" | sdkmanager "system-images;android-25;google_apis;x86_64" "system-images;android-25;google_apis;x86" "system-images;android-25;google_apis;armeabi-v7a" "system-images;android-25;google_apis;arm64-v8a"
 #RUN update_sdk sys-img-armeabi-v7a-google_apis-26 \
 #  && update_sdk sys-img-armeabi-v7a-google_apis-25
 
