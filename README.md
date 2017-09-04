@@ -19,17 +19,23 @@ It contains:
 It can also be used in GitLab CI here is how a .gitlab-ci.yml  could look like:
 
 ```YAML
-image: kmindi/android-ci
+image: kmindi/android-ci:latest
 
 variables:
- ANDROID_COMPILE_SDK: "25"
+  ANDROID_COMPILE_SDK: "25"
 
 before_script:
- - chmod +x ./gradlew
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
 
 stages:
- - build
- - test
+  - build
+  - test
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+  - .gradle/
 
 build:tagged:
   stage: build
@@ -38,43 +44,48 @@ build:tagged:
   artifacts:
     name: "AppName_{$CI_BUILD_TAG}"
     paths:
-    - "app/build/outputs/**/*.apk"
+    - "app/build/outputs/apk/**/*.apk"
   only:
     - tags
-
+    
 build:
- stage: build
- script:
-   - ./gradlew assembleDebug
- artifacts:
-   name: "AppName_{$CI_BUILD_ID}"
-   expire_in: 1 week
-   paths:
-   - "app/build/outputs/**/*.apk"
- except:
-   - tags
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    name: "AppName_{$CI_BUILD_ID}"
+    expire_in: 1 week
+    paths:
+    - "app/build/outputs/apk/**/*.apk"
+  except:
+    - tags
 
 test:unit:
- stage: test
- script:
-   - ./gradlew test
- artifacts:
-   name: "tests-unit-${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}_${CI_BUILD_REF}"
-   expire_in: 1 week
-   paths:
-     - "**/build/reports/tests"
-
+  stage: test
+  script:
+    - ./gradlew test jacoco
+  artifacts:
+    name: "tests-unit-${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}_${CI_BUILD_REF}"
+    expire_in: 1 week
+    paths:
+      - "**/build/reports/**"
+    
 test:instrumentation:25:
- stage: test
- script:
-   - echo no | android create avd -n test -t android-${ANDROID_COMPILE_SDK} --abi google_apis/x86
-   - emulator64-x86 -avd test -no-window -no-audio &
-   - android-wait-for-emulator
-   - export TERM=${TERM:-dumb}
-   - assure_emulator_awake.sh "./gradlew cAT"
- artifacts:
-   name: "tests-instrumentation-${ANDROID_COMPILE_SDK}-${CI_BUILD_NAME}"
-   expire_in: 1 week
-   paths:
-     - "**/build/reports/androidTests"
+  stage: test
+  script:
+    - echo no | avdmanager -v create avd --force --name test --abi google_apis/x86_64 --package "system-images;android-25;google_apis;x86_64"
+    # - export SHELL=/bin/bash && emulator -avd test -no-window -no-audio & #prepend shell for bitness (32/64 bit) detection
+    - export SHELL=/bin/bash && echo "no" | emulator -avd test -noaudio -no-window -gpu off -verbose -qemu &
+    - adb wait-for-device
+    - android-wait-for-emulator
+    - export TERM=${TERM:-dumb}
+    - export ADB_INSTALL_TIMEOUT=4 # minutes (2 minutes by default)
+    - assure_emulator_awake.sh "./gradlew cAT"
+    - ./gradlew createDebugCoverageReport
+  artifacts:
+    name: "tests-instrumentation-${ANDROID_COMPILE_SDK}-${CI_BUILD_NAME}"
+    expire_in: 1 week
+    paths:
+      - "**/build/reports/**"
+
 ```
