@@ -7,6 +7,7 @@ FROM openjdk:8-jdk
 ENV ANDROID_BUILD_TOOLS "26.0.1"
 ENV ANDROID_SDK_TOOLS "25.2.5"
 ENV ANDROID_HOME "/android-sdk"
+# emulator is in its own path since 25.3.0 (not in sdk tools anymore)
 ENV PATH=$PATH:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
 
 # Prepare dependencies
@@ -36,32 +37,20 @@ ADD https://raw.githubusercontent.com/travis-ci/travis-cookbooks/ca800a93071a603
 RUN chmod +x /usr/local/bin/android-wait-for-emulator
 
 # Add own tools
-#COPY update_sdk /usr/local/bin/update_sdk
-#RUN chmod +x /usr/local/bin/update_sdk 
 COPY assure_emulator_awake.sh /usr/local/bin/assure_emulator_awake.sh
 RUN chmod +x /usr/local/bin/assure_emulator_awake.sh
 
-
 # Update platform and build tools
 RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}"
-#RUN update_sdk platform-tools \
-#  && update_sdk build-tools-${ANDROID_BUILD_TOOLS}
 
 # Update SDKs
 RUN echo "y" | sdkmanager "platforms;android-26" "platforms;android-25"
-#RUN update_sdk android-26 \
-#  && update_sdk android-25
 
 # Update emulators
 RUN echo "y" | sdkmanager "system-images;android-25;google_apis;x86_64" "system-images;android-25;google_apis;arm64-v8a"
-#RUN update_sdk sys-img-armeabi-v7a-google_apis-26 \
-#  && update_sdk sys-img-armeabi-v7a-google_apis-25
 
 # Update extra
 RUN echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
-#RUN update_sdk extra-android-m2repository \
-#  && update_sdk extra-google-m2repository \
-#  && update_sdk extra-google-google_play_services
 
 # Constraint Layout
 RUN echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
