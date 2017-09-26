@@ -5,6 +5,7 @@
 
 Repository for a docker image used for android CI.
 
+The actual versions of the Android SKD* tools can be found at the end of the build log (given by `sdkmanager --list`)
 It contains:
  - build tools
  - platform tools
@@ -23,6 +24,7 @@ image: kmindi/android-ci:latest
 
 variables:
   ANDROID_COMPILE_SDK: "25"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 before_script:
   - export GRADLE_USER_HOME=$(pwd)/.gradle
@@ -74,7 +76,6 @@ test:instrumentation:25:
   stage: test
   script:
     - echo no | avdmanager -v create avd --force --name test --abi google_apis/x86_64 --package "system-images;android-25;google_apis;x86_64"
-    # - export SHELL=/bin/bash && emulator -avd test -no-window -no-audio & #prepend shell for bitness (32/64 bit) detection
     - export SHELL=/bin/bash && echo "no" | emulator -avd test -noaudio -no-window -gpu off -verbose -qemu &
     - adb wait-for-device
     - android-wait-for-emulator

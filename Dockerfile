@@ -55,3 +55,6 @@ RUN echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2reposit
 # Constraint Layout
 RUN echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
 RUN echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+
+# echo actually installed Android SDK packages
+RUN sdkmanager --list
