@@ -3,9 +3,11 @@
 #
 #
 FROM openjdk:8-jdk
+LABEL maintainer="Kai Mindermann"
 
-ENV ANDROID_BUILD_TOOLS "26.0.1"
-ENV ANDROID_SDK_TOOLS "25.2.5"
+# Up to date link for SDK TOOLS: https://developer.android.com/studio/index.html#command-tools
+ENV VERSION_SDK_TOOLS "3859397"
+ENV ANDROID_BUILD_TOOLS "27.0.0"
 ENV ANDROID_HOME "/android-sdk"
 # emulator is in its own path since 25.3.0 (not in sdk tools anymore)
 ENV PATH=$PATH:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
@@ -17,8 +19,9 @@ RUN mkdir $ANDROID_HOME \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+
 # Install sdk tools
-RUN wget -O android-sdk.zip https://dl.google.com/android/repository/tools_r${ANDROID_SDK_TOOLS}-linux.zip \
+RUN wget -O android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${VERSION_SDK_TOOLS}.zip \
   && unzip -q android-sdk.zip -d $ANDROID_HOME \
   && rm android-sdk.zip
 
@@ -44,10 +47,10 @@ RUN chmod +x /usr/local/bin/assure_emulator_awake.sh
 RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}"
 
 # Update SDKs
-RUN echo "y" | sdkmanager "platforms;android-26" "platforms;android-25"
+RUN echo "y" | sdkmanager "platforms;android-27" "platforms;android-26" "platforms;android-25"
 
 # Update emulators
-RUN echo "y" | sdkmanager "system-images;android-25;google_apis;x86_64" "system-images;android-25;google_apis;arm64-v8a"
+RUN echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86" "system-images;android-25;google_apis;x86_64" 
 
 # Update extra
 RUN echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
