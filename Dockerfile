@@ -1,7 +1,6 @@
 #
 # GitLab CI Android Runner
 #
-#
 FROM openjdk:8-jdk
 LABEL maintainer="Kai Mindermann"
 
