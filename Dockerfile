@@ -43,7 +43,7 @@ COPY assure_emulator_awake.sh /usr/local/bin/assure_emulator_awake.sh
 RUN chmod +x /usr/local/bin/assure_emulator_awake.sh
 
 # Update platform and build tools
-RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}"
+RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}" "build-tools;26.0.2"
 
 # Update SDKs
 RUN echo "y" | sdkmanager "platforms;android-27" "platforms;android-26" "platforms;android-25"

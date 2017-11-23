@@ -78,7 +78,7 @@ test:unit:
   script:
     - ./gradlew test jacocoTestReport
     - cat "app/build/reports/jacoco/jacocoTestReport/html/index.html"
-  coverage: '/Total.+([0-9]{1,3})\%/'
+  coverage: '/Total.+?([0-9]{1,3})\%/'
   cache:
     key: ${CI_PROJECT_ID}
     paths:
@@ -106,7 +106,7 @@ test:instrumentation:25:
     - assure_emulator_awake.sh "./gradlew connectedAndroidTest"
     - ./gradlew createDebugCoverageReport
     - cat "app/build/reports/coverage/debug/index.html"
-  coverage: '/Total.+([0-9]{1,3})\%/'
+  coverage: '/Total.+?([0-9]{1,3})\%/'
   artifacts:
     name: "tests-instrumentation-25-${CI_BUILD_NAME}"
     expire_in: 1 week
@@ -128,7 +128,7 @@ test:instrumentation:26:
     - assure_emulator_awake.sh "./gradlew connectedAndroidTest"
     - ./gradlew createDebugCoverageReport
     - cat "app/build/reports/coverage/debug/index.html"
-  coverage: '/Total.+([0-9]{1,3})\%/'
+  coverage: '/Total.+?([0-9]{1,3})\%/'
   artifacts:
     name: "tests-instrumentation-26-${CI_BUILD_NAME}"
     expire_in: 1 week
