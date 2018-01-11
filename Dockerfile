@@ -34,8 +34,8 @@ RUN mkdir /root/.android \
 RUN mv /bin/sh /bin/sh.backup \
   && cp /bin/bash /bin/sh
 
-# Add tools from travis
-ADD https://raw.githubusercontent.com/travis-ci/travis-cookbooks/ca800a93071a603745a724531c425a41493e70ff/community-cookbooks/android-sdk/files/default/android-wait-for-emulator /usr/local/bin/android-wait-for-emulator
+# Add adapted android-wait-for-emulator
+COPY android-wait-for-emulator.sh /usr/local/bin/android-wait-for-emulator
 RUN chmod +x /usr/local/bin/android-wait-for-emulator
 
 # Add own tools
@@ -49,7 +49,7 @@ RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_
 RUN echo "y" | sdkmanager "platforms;android-27" "platforms;android-26" "platforms;android-25"
 
 # Update emulators
-RUN echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86" "system-images;android-25;google_apis;x86_64" 
+RUN echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86" 
 
 # Update extra
 RUN echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
