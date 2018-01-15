@@ -49,7 +49,7 @@ RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_
 RUN echo "y" | sdkmanager "platforms;android-27" "platforms;android-26" "platforms;android-25"
 
 # Update emulators
-RUN echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86" 
+RUN echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86_64" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86_64" "system-images;android-25;google_apis;x86" 
 
 # Update extra
 RUN echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
