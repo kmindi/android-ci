@@ -5,9 +5,10 @@ FROM openjdk:8-jdk
 LABEL maintainer="Kai Mindermann"
 
 # Up to date link for SDK TOOLS: https://developer.android.com/studio/index.html#command-tools
-ENV VERSION_SDK_TOOLS "3859397"
-ENV ANDROID_BUILD_TOOLS "27.0.0"
-ENV ANDROID_HOME "/android-sdk"
+ENV VERSION_SDK_TOOLS="3859397" \
+  ANDROID_BUILD_TOOLS="27.0.0" \
+  ANDROID_HOME="/android-sdk"
+  
 # emulator is in its own path since 25.3.0 (not in sdk tools anymore)
 ENV PATH=$PATH:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
 
@@ -18,7 +19,6 @@ RUN mkdir $ANDROID_HOME \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
 # Install sdk tools
 RUN wget -O android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${VERSION_SDK_TOOLS}.zip \
   && unzip -q android-sdk.zip -d $ANDROID_HOME \
@@ -26,13 +26,10 @@ RUN wget -O android-sdk.zip https://dl.google.com/android/repository/sdk-tools-l
 
 # Workaround for 
 # Warning: File /root/.android/repositories.cfg could not be loaded.
-RUN mkdir /root/.android \
-  && touch /root/.android/repositories.cfg
-
 # Workaround for host bitness error with android emulator
 # https://stackoverflow.com/a/37604675/455578
-RUN mv /bin/sh /bin/sh.backup \
-  && cp /bin/bash /bin/sh
+RUN mkdir /root/.android && touch /root/.android/repositories.cfg \
+  && mv /bin/sh /bin/sh.backup && cp /bin/bash /bin/sh
 
 # Add adapted android-wait-for-emulator
 COPY android-wait-for-emulator.sh /usr/local/bin/android-wait-for-emulator
