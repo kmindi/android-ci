@@ -8,7 +8,7 @@ LABEL maintainer="Kai Mindermann"
 ENV VERSION_SDK_TOOLS="3859397" \
   ANDROID_BUILD_TOOLS="27.0.0" \
   ANDROID_HOME="/android-sdk"
-  
+
 # emulator is in its own path since 25.3.0 (not in sdk tools anymore)
 ENV PATH=$PATH:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
 
@@ -45,4 +45,4 @@ RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_
   && echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86_64" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86_64" "system-images;android-25;google_apis;x86"  \
   && echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services" \
   && echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" \
-  sdkmanager --list
+  && sdkmanager --list
