@@ -42,21 +42,10 @@ RUN chmod +x /usr/local/bin/android-wait-for-emulator
 COPY assure_emulator_awake.sh /usr/local/bin/assure_emulator_awake.sh
 RUN chmod +x /usr/local/bin/assure_emulator_awake.sh
 
-# Update platform and build tools
-RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}" "build-tools;26.0.2"
-
-# Update SDKs
-RUN echo "y" | sdkmanager "platforms;android-27" "platforms;android-26" "platforms;android-25"
-
-# Update emulators
-RUN echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86_64" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86_64" "system-images;android-25;google_apis;x86" 
-
-# Update extra
-RUN echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
-
-# Constraint Layout
-RUN echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
-RUN echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
-
-# echo actually installed Android SDK packages
-RUN sdkmanager --list
+# Update/Install platform and build tools, system images, extras and list what packages (version) are installed 
+RUN echo "y" | sdkmanager "tools" "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}" "build-tools;26.0.2" \
+  && echo "y" | sdkmanager "platforms;android-27" "platforms;android-26" "platforms;android-25" \
+  && echo "y" | sdkmanager "system-images;android-27;google_apis;x86" "system-images;android-26;google_apis;x86_64" "system-images;android-26;google_apis;x86" "system-images;android-25;google_apis;x86_64" "system-images;android-25;google_apis;x86"  \
+  && echo "y" | sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services" \
+  && echo "y" | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" \
+  sdkmanager --list
