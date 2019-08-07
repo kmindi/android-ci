@@ -1,7 +1,7 @@
 # Android CI
-[![](https://images.microbadger.com/badges/image/kmindi/android-ci.svg)](https://microbadger.com/images/kmindi/android-ci "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/kmindi/android-ci:platforms-28.svg)](https://microbadger.com/images/kmindi/android-ci "Get your own image badge on microbadger.com")
 
-[![](https://images.microbadger.com/badges/version/kmindi/android-ci.svg)](https://microbadger.com/images/kmindi/android-ci "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/kmindi/android-ci:platforms-28.svg)](https://microbadger.com/images/kmindi/android-ci "Get your own version badge on microbadger.com")
 
 Repository for a docker image used for android CI.
 
@@ -9,19 +9,15 @@ The actual versions of the Android SKD* tools can be found at the end of the bui
 It contains:
  - build tools
  - platform tools
-
- - android-25 (+ x86 system image)
- - android-26 (+ x86 system image)
- - android-27 (+ x86 system image)
-
+ - android-28 (+ x86_64 system image)
  - extra-android-m2repository
  - extra-google-m2repository
  - extra-google-google_play_services
 
-It can also be used in GitLab CI. Here is how a .gitlab-ci.yml  could look like:
+It can also be used in GitLab CI. Here is how a .gitlab-ci.yml could look like:
 
 ```YAML
-image: kmindi/android-ci:platforms-25-26-27
+image: kmindi/android-ci:platforms-28
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -91,14 +87,14 @@ test:unit:
     paths:
       - "**/build/reports/**"
     
-test:instrumentation:25:
+test:instrumentation:28:
   stage: test
   tags: 
     - docker
     - kvm
   script:
-    - echo no | avdmanager -v create avd --force --name test --abi google_apis/x86 --package "system-images;android-25;google_apis;x86"
-    - export SHELL=/bin/bash && echo "no" | emulator -avd test -noaudio -no-window -gpu off -verbose -qemu &
+    - echo no | avdmanager -v create avd --force --name test --abi google_apis/x86_64 --package "system-images;android-28;google_apis;x86_64"
+    - export SHELL=/bin/bash && echo "no" | emulator -avd test -no-audio -no-window -gpu off -verbose -qemu &
     - adb wait-for-device
     - android-wait-for-emulator
     - export TERM=${TERM:-dumb}
@@ -108,29 +104,7 @@ test:instrumentation:25:
     - cat "app/build/reports/coverage/debug/index.html"
   coverage: '/Total.+?([0-9]{1,3})\%/'
   artifacts:
-    name: "tests-instrumentation-25-${CI_BUILD_NAME}"
-    expire_in: 1 week
-    paths:
-      - "**/build/reports/**"
-
-test:instrumentation:26:
-  stage: test
-  tags:
-    - docker
-    - kvm
-  script:
-    - echo no | avdmanager -v create avd --force --name test --abi google_apis/x86 --package "system-images;android-26;google_apis;x86"
-    - export SHELL=/bin/bash && echo "no" | emulator -avd test -noaudio -no-window -gpu off -verbose -qemu &
-    - adb wait-for-device
-    - android-wait-for-emulator
-    - export TERM=${TERM:-dumb}
-    - export ADB_INSTALL_TIMEOUT=4 # minutes (2 minutes by default)
-    - assure_emulator_awake.sh "./gradlew connectedAndroidTest"
-    - ./gradlew createDebugCoverageReport
-    - cat "app/build/reports/coverage/debug/index.html"
-  coverage: '/Total.+?([0-9]{1,3})\%/'
-  artifacts:
-    name: "tests-instrumentation-26-${CI_BUILD_NAME}"
+    name: "tests-instrumentation-28-${CI_BUILD_NAME}"
     expire_in: 1 week
     paths:
       - "**/build/reports/**"

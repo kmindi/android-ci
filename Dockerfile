@@ -15,7 +15,7 @@ ENV PATH=$PATH:${ANDROID_HOME}/emulator:${ANDROID_HOME}/tools:${ANDROID_HOME}/to
 # Prepare dependencies
 RUN mkdir $ANDROID_HOME \
   && apt-get update --yes \
-  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5widgets5 expect net-tools \
+  && apt-get install --yes wget tar unzip lib32stdc++6 lib32z1 libqt5widgets5 expect net-tools libpulse0 \
   && apt-get clean \
   && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
