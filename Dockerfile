@@ -5,8 +5,8 @@ FROM openjdk:8-jdk
 LABEL maintainer="Kai Mindermann"
 
 # Up to date link for SDK TOOLS: https://developer.android.com/studio/index.html#command-tools
-ENV VERSION_SDK_TOOLS="3859397" \
-  ANDROID_BUILD_TOOLS="27.0.0" \
+ENV VERSION_SDK_TOOLS="4333796" \
+  ANDROID_BUILD_TOOLS="28.0.3" \
   ANDROID_HOME="/android-sdk"
 
 # emulator is in its own path since 25.3.0 (not in sdk tools anymore)
@@ -43,15 +43,8 @@ RUN chmod +x /usr/local/bin/assure_emulator_awake.sh
 RUN echo "y" | sdkmanager "tools" \  
   && echo "y" | sdkmanager "platform-tools" \  
   && echo "y" | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" \  
-  && echo "y" | sdkmanager "build-tools;26.0.2" \
-  && echo "y" | sdkmanager "platforms;android-27" \  
-  && echo "y" | sdkmanager "platforms;android-26" \  
-  && echo "y" | sdkmanager "platforms;android-25" \
-  && echo "y" | sdkmanager "system-images;android-27;google_apis;x86" \  
-  && echo "y" | sdkmanager "system-images;android-26;google_apis;x86_64" \  
-  && echo "y" | sdkmanager "system-images;android-26;google_apis;x86" \  
-  && echo "y" | sdkmanager "system-images;android-25;google_apis;x86_64" \  
-  && echo "y" | sdkmanager "system-images;android-25;google_apis;x86" \
+  && echo "y" | sdkmanager "platforms;android-28" \  
+  && echo "y" | sdkmanager "system-images;android-28;google_apis;x86_64" \  
   && echo "y" | sdkmanager "extras;android;m2repository" \  
   && echo "y" | sdkmanager "extras;google;m2repository" \  
   && echo "y" | sdkmanager "extras;google;google_play_services" \
